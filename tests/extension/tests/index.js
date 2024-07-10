@@ -17,6 +17,7 @@ describe('Chrome extension tests', function () {
     browser = await puppeteer.launch({
       dumpio: true,
       headless: true,
+      sloMo: 100,
       args: [
         `--disable-extensions-except=${EXTENSION_PATH}`,
         `--load-extension=${EXTENSION_PATH}`,
@@ -55,7 +56,6 @@ describe('Chrome extension tests', function () {
       return { browser, page };
     }
     ({ page } = await setUpBrowser());
-    await delay(1000); // allow page to render
   });
 
   afterEach(async () => {
