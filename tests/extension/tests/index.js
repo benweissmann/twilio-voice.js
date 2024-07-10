@@ -55,6 +55,7 @@ describe('Chrome extension tests', function () {
       return { browser, page };
     }
     ({ page } = await setUpBrowser());
+    await delay(1000); // allow page to render
   });
 
   afterEach(async () => {
@@ -63,7 +64,7 @@ describe('Chrome extension tests', function () {
   });
 
   it('should render popup title correctly', async () => {
-    const title = await page.$('[data-testing-id=popup-title]');
+    const title = await page.$('[data-test-id=popup-title]');
     const titleText = await page.evaluate(
       (element) => element.innerText.trim(),
       title
@@ -73,15 +74,15 @@ describe('Chrome extension tests', function () {
   });
 
   it('should allow worker.js to make outgoing call, and receive incoming call', async () => {
-    const initButton = await page.$('#init');
+    const initButton = await page.$('[data-test-id=init]');
     await initButton.click();
 
-    const textBox = await page.$('#recepient');
+    const textBox = await page.$('[data-test-id=recepient]');
     await textBox.type('test-extension-identity');
-    const callButton = await page.$('#call');
+    const callButton = await page.$('[data-test-id=call]');
     await callButton.click();
     await delay(5000); // allow time for call to occur
-    const testIncoming = await page.$('#test-incoming');
+    const testIncoming = await page.$('[data-test-id=test-incoming]');
     const testIncomingText = await page.evaluate(
       (element) => element.innerText.trim(),
       testIncoming
