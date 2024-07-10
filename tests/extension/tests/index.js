@@ -13,11 +13,10 @@ let page;
 
 describe('Chrome extension tests', function () {
   this.timeout(10000);
-  beforeEach(async () => {
+  beforeEach(async function () {
     browser = await puppeteer.launch({
       dumpio: true,
       headless: true,
-      sloMo: 100,
       args: [
         `--disable-extensions-except=${EXTENSION_PATH}`,
         `--load-extension=${EXTENSION_PATH}`,
@@ -58,12 +57,12 @@ describe('Chrome extension tests', function () {
     ({ page } = await setUpBrowser());
   });
 
-  afterEach(async () => {
+  afterEach(async function () {
     await browser.close();
     browser = undefined;
   });
 
-  it('should render popup title correctly', async () => {
+  it('should render popup title correctly', async function () {
     const title = await page.$('[data-test-id=popup-title]');
     const titleText = await page.evaluate(
       (element) => element.innerText.trim(),
@@ -73,7 +72,7 @@ describe('Chrome extension tests', function () {
     assert.equal(titleText, expectedTitleText);
   });
 
-  it('should allow worker.js to make outgoing call, and receive incoming call', async () => {
+  it('should allow worker.js to make outgoing call, and receive incoming call', async function () {
     const initButton = await page.$('[data-test-id=init]');
     await initButton.click();
 
